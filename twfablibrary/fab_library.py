@@ -5,6 +5,12 @@ import os
 def update_package_list():
     sudo('apt-get update')
 
+def upgrade():
+    sudo('apt-get -y upgrade')
+
+def dist_upgrade():
+    sudo('apt-get -y dist-upgrade')
+
 def install_package(package):
     with settings(hide('warnings', 'stderr'), warn_only= True):
         result = sudo('dpkg-query -p %s' % package)
