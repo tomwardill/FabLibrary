@@ -27,7 +27,7 @@ def remove_package(package):
     else:
         warn('%s is not installed' % package)
 
-def git_clone_or_update(path, git_path, sudo_user = ""):
+def git_clone_or_update(path, git_path, sudo_user = "", checkout_path = None):
 
     # get the package name
     split = git_path.split('/')
@@ -38,8 +38,18 @@ def git_clone_or_update(path, git_path, sudo_user = ""):
         if name in result:
             with cd(os.path.join(path, name)):
                 run('git pull') if not sudo_user else sudo('git pull', user = sudo_user)
+        elif '.git' in result:
+            run('git pull') if not sudo_user else sudo('git pull', user = sudo_user)
         else:
-            sudo('git clone %s' % git_path, user = sudo_user) if sudo_user else run('git clone %s' % git_path)
+            if sudo_user and checkout_path:
+                sudo('git clone %s %s' % (git_path, checkout_path), user = sudo_user)
+            elif sudo_user:
+                sudo('git clone %s' % git_path, user = sudo_user)
+            elif checkout_path:
+                run('git clone %s %s' % (git_path, checkout_path))
+            else:
+                run('git clone %s' % git_path)
+
 def add_key():
     run('mkdir -p .ssh')
     with cd('.ssh'):
