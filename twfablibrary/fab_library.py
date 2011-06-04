@@ -50,10 +50,12 @@ def git_clone_or_update(path, git_path, sudo_user = "", checkout_path = None):
             else:
                 run('git clone %s' % git_path)
 
+    return name
+
 def add_key():
     run('mkdir -p .ssh')
     with cd('.ssh'):
-        put('~/.ssh/authorized_keys', '~/.ssh/authorized_keys')
+        put('~/.ssh/authorized_keys', 'authorized_keys')
 
 
 def xrun(command, hidden='', *args, **kwargs):
