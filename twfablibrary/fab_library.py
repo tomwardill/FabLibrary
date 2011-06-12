@@ -79,3 +79,8 @@ def add_group(groupname):
 def add_user_nologin(username, groupname, home):
     with settings(warn_only = True):
         sudo('sudo adduser --system --home %s --shell /bin/bash --ingroup %s --disabled-password --disabled-login %s' % (home, groupname, username))
+        
+def get_pwd():
+    output = run('pwd')
+    print "dongs" + output
+    return output
