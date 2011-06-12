@@ -71,3 +71,11 @@ def xsudo(command, hidden='', *args, **kwargs):
     print '[%s] sudo: %s' % (env.host_string, command)
     sudo(command + hidden, *args, **kwargs)
     output.running = old_state
+    
+def add_group(groupname):
+    with settings(warn_only = True):
+        sudo('sudo addgroup --system %s' % groupname)
+        
+def add_user_nologin(username, groupname, home):
+    with settings(warn_only = True):
+        sudo('sudo adduser --system --home %s --shell /bin/bash --ingroup %s --disabled-password --disabled-login %s' % (home, groupname, username))
